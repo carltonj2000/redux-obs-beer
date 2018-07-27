@@ -1,10 +1,12 @@
-import { throwError, of, concat } from "rxjs";
+import { throwError, of, concat, merge } from "rxjs";
 import {
   catchError,
   debounceTime,
+  delay,
   filter,
   map,
-  switchMap
+  switchMap,
+  takeUntil
 } from "rxjs/operators";
 //import { ignoreElements, tap } from "rxjs/operators"; // for debug
 import { ajax } from "rxjs/ajax";
@@ -12,6 +14,7 @@ import { combineEpics } from "redux-observable";
 
 import {
   SEARCH_BEERS,
+  SEARCH_BEERS_CANCEL,
   searchBeersDone,
   searchBeersErr,
   searchBeersLoading
@@ -30,7 +33,10 @@ const fetchBeer = actions$ =>
     filter(({ payload }) => payload !== ""),
     switchMap(({ payload }) => {
       const loading = of(searchBeersLoading(true));
+      const blockers = merge(actions$.ofType(SEARCH_BEERS_CANCEL));
       const request = ajx(payload).pipe(
+        delay(2000),
+        takeUntil(blockers),
         map(searchBeersDone),
         catchError(err => of(searchBeersErr(err)))
       );

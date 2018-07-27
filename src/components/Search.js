@@ -1,6 +1,6 @@
 import React from "react";
 
-const Search = ({ defaultValue, onChange, messages }) => {
+const Search = ({ defaultValue, onChange, messages, onCancel, loading }) => {
   return (
     <div>
       <input
@@ -8,6 +8,7 @@ const Search = ({ defaultValue, onChange, messages }) => {
         defaultValue={defaultValue}
         onChange={e => onChange(e.target.value)}
       />
+      {loading && <button onClick={() => onCancel()}>Cancel</button>}
       {messages.length > 0 && (
         <ul>
           {messages.map(message => <li key={message.text}>{message.text}</li>)}
