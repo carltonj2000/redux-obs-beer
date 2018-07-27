@@ -6,4 +6,4 @@ course from video 7 on.
 
 Note that the testing video 12 does not work as show in the video.
 Someone in this DISCUSS section noted this.
-The video shows multiple outputs from the test and only 1 is receivied.
+The video shows multiple outputs from the test and only 1 is received.
